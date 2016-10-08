@@ -1,0 +1,168 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Woocommerce categories Mailchimp groups Premium\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-18 11:29+0530\n"
+"PO-Revision-Date: 2016-09-18 12:11+0530\n"
+"Last-Translator: softsdev <agranand.be1@gmail.com>\n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.8.9\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: plugin-update-checker/github-checker.php:120
+msgid "There is no changelog available."
+msgstr "There is no changelog available."
+
+#: plugin-update-checker/plugin-update-checker.php:637
+msgid "Check for updates"
+msgstr "Check for updates"
+
+#: plugin-update-checker/plugin-update-checker.php:681
+msgid "This plugin is up to date."
+msgstr "This plugin is up to date."
+
+#: plugin-update-checker/plugin-update-checker.php:683
+msgid "A new version of this plugin is available."
+msgstr "A new version of this plugin is available."
+
+#: plugin-update-checker/plugin-update-checker.php:685
+#, php-format
+msgid "Unknown update checker status \"%s\""
+msgstr "Unknown update checker status \"%s\""
+
+#: woocommerce-mailchimp-premium.php:177
+msgid "Mailchimp Group premium"
+msgstr "Mailchimp Group premium"
+
+#: woocommerce-mailchimp-premium.php:254
+msgid "Woocommerce categories Mailchimp groups Premium"
+msgstr "Woocommerce categories Mailchimp groups Premium"
+
+#: woocommerce-mailchimp-premium.php:266
+msgid "Mailchimp Setting"
+msgstr "Mailchimp Setting"
+
+#: woocommerce-mailchimp-premium.php:274
+msgid "Status"
+msgstr "Status"
+
+#: woocommerce-mailchimp-premium.php:284
+msgid "VERBONDEN"
+msgstr "VERBONDEN"
+
+#: woocommerce-mailchimp-premium.php:290 woocommerce-mailchimp-premium.php:304
+#: woocommerce-mailchimp-premium.php:322
+msgid "Mailchimp API Key"
+msgstr "Mailchimp API Key"
+
+#: woocommerce-mailchimp-premium.php:300
+msgid "OUT OF SYNC"
+msgstr "OUT OF SYNC"
+
+#: woocommerce-mailchimp-premium.php:318
+msgid "Mailchimp API"
+msgstr "Mailchimp API"
+
+#: woocommerce-mailchimp-premium.php:346
+msgid "Mailchimp List Name"
+msgstr "Mailchimp List Name"
+
+#: woocommerce-mailchimp-premium.php:350
+msgid "Mailchimp List"
+msgstr "Mailchimp List"
+
+#: woocommerce-mailchimp-premium.php:360
+msgid "None"
+msgstr "None"
+
+#: woocommerce-mailchimp-premium.php:400
+msgid "Subscribe customers Event"
+msgstr "Subscribe customers Event"
+
+#: woocommerce-mailchimp-premium.php:404
+msgid "Subscribe customers to MailChimp Event"
+msgstr "Subscribe customers to MailChimp Event"
+
+#: woocommerce-mailchimp-premium.php:430 woocommerce-mailchimp-premium.php:1379
+msgid "Enable Double Opt-In"
+msgstr "Enable Double Opt-In"
+
+#: woocommerce-mailchimp-premium.php:434
+msgid "Enable Double Opt-In confirmation message to customer."
+msgstr "Enable Double Opt-In confirmation message to customer."
+
+#: woocommerce-mailchimp-premium.php:454
+msgid "Display Double Opt-in on checkout page"
+msgstr "Display Double Opt-in on checkout page"
+
+#: woocommerce-mailchimp-premium.php:458
+msgid "Display an opt-in checkbox on the checkout page."
+msgstr "Display an opt-in checkbox on the checkout page."
+
+#: woocommerce-mailchimp-premium.php:478 woocommerce-mailchimp-premium.php:482
+msgid "Default checked Double Opt-in on checkout."
+msgstr "Default checked Double Opt-in on checkout."
+
+#: woocommerce-mailchimp-premium.php:502 woocommerce-mailchimp-premium.php:506
+msgid "Label next to Double Opt-in on checkout."
+msgstr "Label next to Double Opt-in on checkout."
+
+#: woocommerce-mailchimp-premium.php:528
+msgid "Save Changes"
+msgstr "Save Changes"
+
+#: woocommerce-mailchimp-premium.php:708
+msgid ""
+"Please enter the license key for this product to activate it. You were given "
+"a license key when you purchased this item."
+msgstr ""
+"Please enter the license key for this product to activate it. You were given "
+"a license key when you purchased this item."
+
+#: woocommerce-mailchimp-premium.php:716
+msgid "License Key"
+msgstr "License Key"
+
+#: woocommerce-mailchimp-premium.php:779
+msgid "Looking for help?"
+msgstr "Looking for help?"
+
+#: woocommerce-mailchimp-premium.php:780
+msgid "We have some resources available to help you in the right direction."
+msgstr "We have some resources available to help you in the right direction."
+
+#: woocommerce-mailchimp-premium.php:783
+msgid "Knowledge Base"
+msgstr "Knowledge Base"
+
+#: woocommerce-mailchimp-premium.php:786
+#, php-format
+msgid ""
+"If your answer can not be found in the resources listed above, please use "
+"the <a href=\"%s\">support forums on WordPress.org</a>."
+msgstr ""
+"If your answer can not be found in the resources listed above, please use "
+"the <a href=\"%s\">support forums on WordPress.org</a>."
+
+#: woocommerce-mailchimp-premium.php:901 woocommerce-mailchimp-premium.php:967
+#: woocommerce-mailchimp-premium.php:1287
+msgid "Mailchimp Group"
+msgstr "Mailchimp Group"
+
+#: woocommerce-mailchimp-premium.php:925 woocommerce-mailchimp-premium.php:989
+#: woocommerce-mailchimp-premium.php:1307
+msgid "Select mailchimp group."
+msgstr "Select mailchimp group."
+
+#~ msgid "Default checked Double Opt-in on checkout"
+#~ msgstr "Default checked Double Opt-in on checkout"

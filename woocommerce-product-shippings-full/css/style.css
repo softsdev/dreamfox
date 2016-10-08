@@ -1,0 +1,12 @@
+.wrap-mc-paid{margin:10px 0 0 0;}
+.wrap-mc-paid h2.title{    border-bottom: 1px solid #ccc;padding: 15px 0;margin-bottom: 20px;}
+.left-mc-paid{width:64.666%; float:left; border-right:1px solid #ccc}
+.left-mc-paid .postbox{padding: 0 10px 10px; margin: 0 10px 0px; background:none; border:none; margin:0; padding:0; box-shadow:none;}
+.left-mc-paid .postbox .hndle{margin-top:0}
+.left-mc-paid .postbox .positive{background-color: #32cd32; color:#fff; padding:3px 6px;font-weight:700; font-size:12px;}
+.left-mc-paid .postbox .neutral{background-color:red; color:#fff; padding:3px 6px;font-weight:700; font-size:12px;}
+.right-mc-paid{width:31.333%; float:left; padding:0 20px; }
+.right-mc-paid .mc4wp-box{border-top:1px solid #ccc;}
+#wpfooter {margin-left: 0;padding-left: 0;}
+.left-mc-paid .license-key-new{margin-top: 30px;padding: 15px 0 0; border-top: 1px solid #ccc;}
+.left-mc-paid .license-key-new > p{font-weight: 700; margin: 5px 0;}

@@ -1,0 +1,7 @@
+.wrap{margin:10px 0 0 0;}
+.left-mc-setting{width:64.666%; float:left;}
+.left-mc-setting .postbox{padding: 10px; margin: 10px 0px; background:none; border:none; margin:0; padding:0; box-shadow:none;}
+.left-mc-setting .postbox .hndle{margin-top:0}
+.left-mc-setting .postbox .positive{background-color: #32cd32; color:#fff; padding:3px 6px;font-weight:700; font-size:12px;}
+.left-mc-setting .postbox .neutral{background-color:red; color:#fff; padding:3px 6px;font-weight:700; font-size:12px;}
+.right-mc-setting{width:31.333%; float:left; padding:0 20px; border-left:1px solid #ccc}

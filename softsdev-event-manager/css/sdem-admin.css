@@ -1,0 +1,222 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 8 Jun, 2015, 12:07:09 AM
+    Author     : SOFTSDEV
+*/
+
+/* #### Pre Style #### */
+pre.clean_debug {
+    background: black none repeat scroll 0 0;
+    box-shadow: 0 0 5px 4px orange;
+    color: greenyellow;
+    font-family: Verdana;
+    padding: 10px;
+}
+/*--------------END----------------*/  
+
+/* #### Menu icon #### */
+#menu-posts-softsdev_events .wp-menu-image {
+    background: url(../images/events-icon.png) no-repeat 6px -17px !important;
+}
+
+#menu-posts-softsdev_events .wp-menu-image:before{
+    content:    "";
+}
+
+#menu-posts-softsdev_events:hover .wp-menu-image, #menu-posts-softsdev_events.wp-has-current-submenu .wp-menu-image {
+    background-position:6px 7px !important;
+}
+
+/* #### Gallery #### */
+.sdem_gallery {
+    padding: 3px;
+}
+
+.sdem_gallery .sdem_gallery-item {
+    display: inline-block;
+    margin: 3px 3px 0 3px;
+}
+
+.sdem_gallery .sdem_gallery-item img{
+    max-height: 95px;
+    max-width: 95px;
+}
+/*--------------END----------------*/  
+
+/* #### Vertical Tabs #### */
+.ui-tabs.softsdev-vertical-tabs {
+    padding: 0;
+    width: 100%;
+}
+.ui-tabs.softsdev-vertical-tabs .ui-widget-header {
+    border: none;
+}
+.ui-tabs.softsdev-vertical-tabs .ui-tabs-nav {
+    float: left;
+    width: 20%;
+    background: whitesmoke;
+    border-radius: 4px 0 0 4px;
+    border-right: 1px solid gray;
+}
+.ui-tabs.softsdev-vertical-tabs .ui-tabs-nav li {
+    clear: left;
+    width: 100%;
+    margin: 0.2em 0;
+    border: 1px solid gray;
+    border-width: 1px 0 1px 1px;
+    border-radius: 4px 0 0 4px;
+    overflow: hidden;
+    position: relative;
+    right: -2px;
+    z-index: 2;
+    background: #eeeeee;
+    box-shadow: 0 0 -1px grey;    
+}
+.ui-tabs.softsdev-vertical-tabs .ui-tabs-nav li a {
+    display: block;
+    width: 100%;
+    padding: 0.6em 1em;
+}
+.ui-tabs.softsdev-vertical-tabs .ui-tabs-nav li a:hover {
+    cursor: pointer;
+    background: white none repeat scroll 0 0;
+}
+.ui-tabs.softsdev-vertical-tabs .ui-tabs-nav li.ui-tabs-active {
+    margin-bottom: 0.2em;
+    padding-bottom: 0;
+    border-right: 1px solid white;
+    background: white none repeat scroll 0 0;    
+}
+.ui-tabs.softsdev-vertical-tabs .ui-tabs-nav li:last-child {
+    margin-bottom: 10px;
+}
+.ui-tabs.softsdev-vertical-tabs .ui-tabs-panel {
+    float: left;
+    width: 75%;
+    border-left: 1px solid gray;
+    border-radius: 0;
+    position: relative;
+    left: -1px;
+}
+/*--------------END----------------*/  
+/* #### Forms Tabs #### */
+
+.sd-content {
+    clear:both;
+    width: 100%;
+}
+.sd-content label {
+    display: inline-block;
+    vertical-align: top;
+    width: 20%;
+}
+.sd-content input[type="text"],
+.sd-content textarea,
+.sd-content select{
+    display: inline-block;
+    width: 75%;
+}
+.sd-content .form-field{
+    padding: 2px 0 8px 0;
+}
+.sd-content .sdff-100, .sd-content input.sdff-100[type="text"]{
+    width: 100%;
+}
+.sd-content .sdff-80, .sd-content input.sdff-80[type="text"]{
+    width: 80%;
+}
+.sd-content .sdff-75, .sd-content input.sdff-75[type="text"]{
+    width: 75%;
+}
+.sd-content .sdff-70, .sd-content input.sdff-70[type="text"]{
+    width: 70%;
+}
+.sd-content .sdff-60, .sd-content input.sdff-60[type="text"]{
+    width: 60%;
+}
+.sd-content .sdff-50, .sd-content input.sdff-50[type="text"]{
+    width: 50%;
+}
+.sd-content .sdff-40, .sd-content input.sdff-40[type="text"]{
+    width: 40%;
+}
+.sd-content .sdff-33, .sd-content input.sdff-33[type="text"]{
+    width: 33%;
+}
+.sd-content .sdff-30, .sd-content input.sdff-30[type="text"]{
+    width: 30%;
+}
+.sd-content .sdff-25, .sd-content input.sdff-25[type="text"]{
+    width: 25%;
+}
+.sd-content .sdff-20, .sd-content input.sdff-20[type="text"]{
+    width: 20%;
+}
+.sd-content .sdff-10, .sd-content input.sdff-10[type="text"]{
+    width: 10%;
+}
+
+.sd-content .pull-left{
+    float: left;
+}
+.sd-content .mr-lt-5{
+    margin-left: 5px;
+}
+.sd-content .mr-rt-5{
+    margin-right: 5px;
+} 
+
+.sd-content .pd-10{
+    padding: 10px;
+}
+.sd-content .box {
+    border-bottom: 1px solid #eee;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.sd-content .box-border{
+    border: 1px solid #d0d0d0;
+}
+
+.sd-content .side-heading{
+    font-weight: bold;
+}
+.sd-content .side-heading:after{
+    content: ":";
+}
+.sd-content .clear-both {
+    clear: both;
+}
+/*--------------END----------------*/  
+/* #### Map #### */
+
+.location_map{
+    border: 1px solid #eee;
+    height: 300px;
+    margin-top: 10px;
+    padding: 5px;
+    text-align: center;
+    width: 100%;
+}
+/* #### Help Icon #### */
+#sdem-setting-tabs .help_tip {
+    float: right;
+}
+
+/*#########################################*/
+@media screen and (max-width: 500px) {
+    .sd-content .sdff-100,
+    .sd-content .sdff-80,
+    .sd-content .sdff-70,
+    .sd-content .sdff-60,
+    .sd-content .sdff-50,
+    .sd-content .sdff-40,
+    .sd-content .sdff-30{
+        width: 100%;
+    }
+}

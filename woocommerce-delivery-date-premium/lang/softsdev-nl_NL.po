@@ -1,0 +1,218 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Woocommerce Delivery Date Full v1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-04-01 08:42+0530\n"
+"PO-Revision-Date: 2015-04-01 08:42+0530\n"
+"Last-Translator: softsdev <agranand.be1@gmail.com>\n"
+"Language-Team: \n"
+"Language: nl_NL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.7.5\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: ../\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-SearchPath-0: .\n"
+
+# @ softsdev
+#: woocommerce-delivery-date-full.php:81
+#: woocommerce-delivery-date-full.php:102
+#: woocommerce-delivery-date-full.php:541
+#: woocommerce-delivery-date-full.php:557
+#: woocommerce-delivery-date-full.php:591
+msgid "Delivery Date"
+msgstr "leveringsdatum"
+
+# @ softsdev
+#: woocommerce-delivery-date-full.php:131
+msgid "No of day's to Delivery"
+msgstr "Aantal dagen tot Levering"
+
+# @ softsdev
+#: woocommerce-delivery-date-full.php:133
+msgid "How many days user can select delivery date"
+msgstr "Hoeveel dagen gebruiker kan leverdatum selecteren"
+
+# @ softsdev
+#: woocommerce-delivery-date-full.php:136
+msgid "Applicable Categories"
+msgstr "Toepasselijk Categorieën"
+
+# @ softsdev
+#: woocommerce-delivery-date-full.php:137
+msgid "Select categories for to choose delivery date on checkout"
+msgstr "Selecteer categorieën voor de levering datum kassa kiezen"
+
+#: woocommerce-delivery-date-full.php:138
+msgid "-- Set blank >> use global setting."
+msgstr "- Stel leeg >> gebruiken globale instelling."
+
+#: woocommerce-delivery-date-full.php:139
+msgid "-- Set 0 >> For today's delivery date."
+msgstr "- Stel 0 >> Voor de hedendaagse leveringsdatum."
+
+# @ softsdev
+#: woocommerce-delivery-date-full.php:180
+#: woocommerce-delivery-date-full.php:292
+#: woocommerce-delivery-date-full.php:494
+msgid "Select delivery date"
+msgstr "Selecteer leverdatum"
+
+# @ softsdev
+#: woocommerce-delivery-date-full.php:181
+#: woocommerce-delivery-date-full.php:301
+#: woocommerce-delivery-date-full.php:495
+msgid "We will try our best to deliver your order on the specified date"
+msgstr ""
+"We zullen proberen ons best om uw bestelling af te leveren op de "
+"vastgestelde datum"
+
+#: woocommerce-delivery-date-full.php:184
+msgid "Holidays & Weekends"
+msgstr "Vakanties en weekends"
+
+# @ softsdev
+#: woocommerce-delivery-date-full.php:188
+msgid "Count Only Working Days"
+msgstr "Alleen tellen Werkdagen"
+
+# @ softsdev
+#: woocommerce-delivery-date-full.php:189
+msgid "Set Delivery dates only on weekends"
+msgstr "Stel Levering data alleen in het weekend"
+
+# @ softsdev
+#: woocommerce-delivery-date-full.php:198
+msgid "Disable Days for Delivery"
+msgstr "Uitschakelen dagen voor levering"
+
+# @ softsdev
+#: woocommerce-delivery-date-full.php:199
+msgid "Disable days to not delivery product on perticuler day"
+msgstr "Uitschakelen dagen naar het product niet leveren op bepaalde dag"
+
+# @ softsdev
+#: woocommerce-delivery-date-full.php:203
+msgid "Monday"
+msgstr "maandag"
+
+# @ softsdev
+#: woocommerce-delivery-date-full.php:205
+msgid "Tuesday"
+msgstr "dinsdag"
+
+# @ softsdev
+#: woocommerce-delivery-date-full.php:207
+msgid "Wednesday"
+msgstr "woensdag"
+
+# @ softsdev
+#: woocommerce-delivery-date-full.php:209
+msgid "Thursday"
+msgstr "donderdag"
+
+# @ softsdev
+#: woocommerce-delivery-date-full.php:211
+msgid "Friday"
+msgstr "vrijdag"
+
+# @ softsdev
+#: woocommerce-delivery-date-full.php:213
+msgid "Saturday"
+msgstr "zaterdag"
+
+# @ softsdev
+#: woocommerce-delivery-date-full.php:215
+msgid "Sunday"
+msgstr "zondag"
+
+#: woocommerce-delivery-date-full.php:221
+msgid "Holidays"
+msgstr "vakantie"
+
+#: woocommerce-delivery-date-full.php:222
+msgid "Set holidays"
+msgstr "set vakantie"
+
+# @ softsdev
+#: woocommerce-delivery-date-full.php:226
+#: woocommerce-delivery-date-full.php:234
+#: woocommerce-delivery-date-full.php:242
+#: woocommerce-delivery-date-full.php:250
+#: woocommerce-delivery-date-full.php:258
+msgid "Start Date"
+msgstr "startdatum"
+
+# @ softsdev
+#: woocommerce-delivery-date-full.php:227
+#: woocommerce-delivery-date-full.php:235
+#: woocommerce-delivery-date-full.php:243
+#: woocommerce-delivery-date-full.php:251
+#: woocommerce-delivery-date-full.php:259
+msgid "End Date"
+msgstr "einddatum"
+
+#: woocommerce-delivery-date-full.php:266
+msgid "Other Settings"
+msgstr "andere instellingen"
+
+#: woocommerce-delivery-date-full.php:270
+msgid "Delivery date a required"
+msgstr "Leveringsdatum een vereiste"
+
+#: woocommerce-delivery-date-full.php:271
+msgid "Delivery date a required field Yes/No"
+msgstr "Leveringsdatum een verplicht veld Ja / Nee"
+
+#: woocommerce-delivery-date-full.php:279
+msgid "Show Empty Delivery date on Checkout Page default"
+msgstr "Toon Lege Levering datum afrekenen Pagina standaard"
+
+#: woocommerce-delivery-date-full.php:280
+msgid "Show Empty Delivery date on Checkout Page default Yes/No"
+msgstr "Toon Lege Levering datum afrekenen Default Ja / Nee"
+
+#: woocommerce-delivery-date-full.php:288
+msgid "Delivery Date Label on Checkout Page"
+msgstr "Leveringsdatum Etiket op Betaalpagina"
+
+#: woocommerce-delivery-date-full.php:289
+msgid "Default text: Select delivery date"
+msgstr "Standaardtekst: Selecteer leverdatum"
+
+#: woocommerce-delivery-date-full.php:297
+msgid "Delivery Date Field Description on Checkout Page"
+msgstr "Leveringsdatum Veld Beschrijving op Betaalpagina"
+
+#: woocommerce-delivery-date-full.php:298
+msgid ""
+"Default text: We will try our best to deliver your order on the specified "
+"date"
+msgstr ""
+"Standaardtekst: We zullen proberen ons best om uw bestelling af te leveren "
+"op de vastgestelde datum"
+
+#: woocommerce-delivery-date-full.php:572
+msgid "Delivery Info"
+msgstr "levering Info"
+
+# @ softsdev
+#~ msgid "Holyday's & Weekends"
+#~ msgstr "Vakanties en weekends"
+
+# @ softsdev
+#~ msgid "Holyday's"
+#~ msgstr "vakantie"
+
+# @ softsdev
+#~ msgid "Set holyday's"
+#~ msgstr "set vakantie"
+
+# @ softsdev
+#~ msgid "Please enter something into this new shiny field."
+#~ msgstr "Vul iets in deze nieuwe glimmende veld."
