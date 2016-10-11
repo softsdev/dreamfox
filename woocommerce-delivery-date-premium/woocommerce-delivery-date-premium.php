@@ -1,188 +1,121 @@
 <?php
-
 /**
  * Plugin Name: Woocommerce Delivery Date
  * Plugin URI: www.dreamfoxmedia.nl 
- * Version: 1.1.2
+ * Version: 1.1.3
  * Author URI: www.dreamfoxmedia.nl
  * Author: Marco van Loghum Slaterus
  * Description: Extend Woocommerce plugin to add delivery date on checkout
  * Requires at least: 3.7
- * Tested up to: 4.1
+ * Tested up to: 4.6.1
  * License: GPLv3 or later
  * License URI: http://www.opensource.org/licenses/gpl-license.php
  * Text Domain: woocommerce-delivery-date
  * Domain Path: /lang/
  * @Developer : Anand Rathi ( Softsdev )
  */
-
 /**
  * Check if WooCommerce is active
  */
 define('DELIVERY_DATE_SECRET_KEY', '568ef1d445c081.84974482'); //Rename this constant name so it is specific to your plugin or theme.
-
 // This is the URL where API query request will be sent to. This should be the URL of the site where you have installed the main license manager plugin. Get this value from the integration help page.
-
 define('DELIVERY_DATE_LICENSE_SERVER_URL', 'http://www.dreamfoxmedia.com'); //Rename this constant name so it is specific to your plugin or theme.
-
 // This is a value that will be recorded in the license manager data so you can identify licenses for this item/product.
-
-define('DELIVERY_DATE_ITEM_REFERENCE', 'Mailchimp Plugin'); //Rename this constant name so it is specific to your plugin or theme.
-
+define('DELIVERY_DATE_ITEM_REFERENCE', 'Delivery Date'); //Rename this constant name so it is specific to your plugin or theme.
 if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
 require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 }
-
 if ((in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins'))) ||
     is_plugin_active_for_network('woocommerce/woocommerce.php')) && 
     !function_exists('softsdev_delivery_date')
 ) {
-
-
      /* ----------------------------------------------------- */
-
         // update checker
-
         require 'plugin-update-checker/plugin-update-checker.php';
-
         $MyUpdateChecker = PucFactory::buildUpdateChecker(
-
             'http://www.dreamfoxmedia.com/update-plugins/?action=get_metadata&slug=woocommerce-delivery-date-premium', //Metadata URL.
-
             __FILE__, //Full path to the main plugin file.
-
             'woocommerce-delivery-date-premium' //Plugin slug. Usually it's the same as the name of the directory.
-
         );
-
         /**
          *  load text domain
          */
         add_action('plugins_loaded', 'softsdev_dd_load_textdomain');
-
         /**
          *  Submenu on woocommerce section
          */
         add_action('admin_menu', 'softsdev_delivery_submenu_page');
-
         /**
          *  delivery date selection on checkout page field
          */
-
         add_filter('woocommerce_checkout_fields', 'softsdev_dd_checkout_field');
         /**
          * Delivery date field html
          */
-
         add_action('woocommerce_checkout_after_customer_details', 'softsdev_extra_checkout_fields');
-
         /**
          *  update delivery date
          */
-
         add_action('woocommerce_checkout_update_order_meta', 'softsdev_dd_checkout_field_update_order_meta', 10, 2);
-
         /**
          * delivery date on email
          */
-
         add_action('woocommerce_email_after_order_table', 'softsdev_dd_email_with_delivery_date', 15, 2);
-
-
-
         /**
          * delivery date on order detail admin page
          */
-
         add_action('woocommerce_admin_order_data_after_order_details', 'softsdev_display_order_data_in_admin');
-
         /**
          * delivery date on order view & thank you page
          */
-
         add_action('woocommerce_order_details_after_order_table', 'softsdev_dd_order_view', 20);
-
         /**
          * delivery date on order view & thank you page
          */
-
         add_action('woocommerce_thankyou', 'softsdev_dd_order_view', 20);
-
         /* ----------------------------------------------------- */
-
         /**
          * softsdev language textdomain
          */
-
         function softsdev_dd_load_textdomain() {
-
                 load_plugin_textdomain('softsdev', false, dirname(plugin_basename(__FILE__)) . '/lang/');
-
         }
-
         /**
          * woocommerce delivery date menu	
          */
-
         function softsdev_delivery_submenu_page() {
-
                 add_submenu_page('woocommerce', __('Delivery Date', 'softsdev'), __('Delivery Date', 'softsdev'), 'manage_options', 'delivery-date', 'softsdev_delivery_date');
-
         }
-
         /**
          * woocommerce delivery date menu	
          */
-
         function softsdev_dd_script_style() {
-
                 wp_register_style('wdd_admin', plugins_url('css/wdd_admin.css', __FILE__));
-
                 wp_register_style('wdd_front', plugins_url('css/wdd_front.css', __FILE__));
-
                 wp_register_style('jquery-ui-css', plugins_url('css/jquery-ui.css', __FILE__));
-
                 wp_register_style('style_new', plugins_url('css/style.css', __FILE__));
-
         }
         add_action('init', 'softsdev_dd_script_style');
-
-
          /* ----------------------------------------------------- */
-
         /**
          * Update footer version
          */
-
         function softsdev_delivery_date_update_footer($text) {
-
             if(! empty( $_GET['page'] ) && strpos( $_GET['page'], 'delivery-date' ) === 0 ) {
-
                 $text = 'Version 1.0.7';
-
             }
-
             return $text;   
-
         }
-
         /* ----------------------------------------------------- */
-
         /**
          * Update footer text
          */
-
         function softsdev_delivery_date_footer_text( $text ) {
-
-
-
         if(! empty( $_GET['page'] ) && strpos( $_GET['page'], 'delivery-date' ) === 0 ) {
             $text = sprintf( '' );
         }
         return $text;
     }
-
-
         /**
      * Check license
      * @return true / false
@@ -205,11 +138,8 @@ if ((in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get
                 $has_valid_license = true;
             }
         }
-
         return $has_valid_license;
     }
-
-
     /**
      * Type: updated,error,update-nag
      */
@@ -224,21 +154,13 @@ EOD;
             echo $html;
         }
     }
-
-
-  
         /* ----------------------------------------------------- */
-
         /**
          * Delivery date setting
          */
-
         function softsdev_delivery_date() {
-
                 add_filter( 'admin_footer_text', 'softsdev_delivery_date_footer_text' );
-
                 add_filter( 'update_footer', 'softsdev_delivery_date_update_footer' );
-
                 echo '<div class="wrap wrap-dd-paid"><div id="icon-tools" class="icon32"></div>';
                 echo '<h2>' . __('Delivery Date', 'softsdev') . '</h2>';
                 $args = array(
@@ -258,7 +180,7 @@ EOD;
                         }
                         update_option('delivery_date_full_setting', $dd_setting);
                 } else {
-                        $dd_setting = get_option('delivery_date_full_setting');
+                        $dd_setting = get_option('delivery_date_full_setting', array());
                 }
                 $no_of_days_to_deliver = ( $dd_setting ) && array_key_exists('no_of_days_to_deliver', $dd_setting) ? $dd_setting['no_of_days_to_deliver'] : 0;
                 $applicable_categories = ( $dd_setting ) && array_key_exists('categories', $dd_setting) ? $dd_setting['categories'] : array();
@@ -426,13 +348,9 @@ EOD;
                                     <input name="delivery_date[other_settings][delivery_date_label]" type="text" value="<?php echo $delivery_date_label ?>" placeholder="<?php echo __('Select delivery date', 'softsdev'); ?>" style="width: 500px" />
                                 </td>
                             </tr> 
-
                             <tr>
-
                                 <th>
-
                                     <label><?php echo __('Delivery Date Field Description on Checkout Page', 'softsdev') ?></label>
-
                                     <img width="16" height="16" src="<?php echo plugins_url('images/help.png', __FILE__) ?>" class="help_tip" title="<?php echo __('Default text: We will try our best to deliver your order on the specified date', 'softsdev'); ?>">								
                                 </th>
                                 <td>
@@ -441,9 +359,7 @@ EOD;
                             </tr>                     
                         </table>
                     </div> 
-
                     <input class="button-large button-primary" type="submit" value="Save changes" />
-
                 </form>
                 <div class="license-key-new">
                 <?php else: ?>
@@ -461,177 +377,79 @@ EOD;
                                 'registered_domain' => $_SERVER['SERVER_NAME'],
                                 'item_reference' => urlencode(DELIVERY_DATE_ITEM_REFERENCE),
                             );
-
                             // Send query to the license manager server
-
                             $query = esc_url_raw(add_query_arg($api_params, DELIVERY_DATE_LICENSE_SERVER_URL));
-
                             $response = wp_remote_get($query, array('timeout' => 20, 'sslverify' => false));
-
                             // Check for error in the response
-
                             if (is_wp_error($response)){
-
                                 softsdev_notice("Unexpected Error! The query returned with an error.", 'error');
-
                             }
-
                             //var_dump($response);//uncomment it if you want to look at the full response
-
-                            
-
                             // License data.
-
                             $license_data = json_decode(wp_remote_retrieve_body($response));
-
-                            
-
                             // TODO - Do something with it.
-
                             //var_dump($license_data);//uncomment it to look at the data
-
-                            
-
                             if($license_data->result == 'success'){//Success was returned for the license activation
-
-                                
-
                                 //Uncomment the followng line to see the message that returned from the license server
-
                                 softsdev_notice('The following message was returned from the server: '.$license_data->message. '. You must reload the page to see result!', 'updated');
-
-                                
-
                                 //Save the license key in the options table
-
                                 update_option('delivery_date_license_key', $license_key); 
-
                             }
-
                             else{
-
                                 //Show error to the user. Probably entered incorrect license key.
-
-                                
-
                                 //Uncomment the followng line to see the message that returned from the license server
-
                                 softsdev_notice('The following message was returned from the server: '.$license_data->message, 'error');
-
                             }
-
                         }
-
                         /*** End of license activation ***/
-
-                        
-
                         /*** License activate button was clicked ***/
-
                         if (isset($_REQUEST['deactivate_license'])) {
-
                             $license_key = $_REQUEST['delivery_date_license_key'];
-
                             // API query parameters
-
                             $api_params = array(
-
                                 'slm_action' => 'slm_deactivate',
-
                                 'secret_key' => DELIVERY_DATE_SECRET_KEY,
-
                                 'license_key' => $license_key,
-
                                 'registered_domain' => $_SERVER['SERVER_NAME'],
-
                                 'item_reference' => urlencode(DELIVERY_DATE_ITEM_REFERENCE),
-
                             );
-
                             // Send query to the license manager server
-
                             $query = esc_url_raw(add_query_arg($api_params, DELIVERY_DATE_LICENSE_SERVER_URL));
-
                             $response = wp_remote_get($query, array('timeout' => 20, 'sslverify' => false));
-
                             // Check for error in the response
-
                             if (is_wp_error($response)){
-
                                 softsdev_notice("Unexpected Error! The query returned with an error.", 'error');
-
                             }
-
                             // License data.
-
                             $license_data = json_decode(wp_remote_retrieve_body($response));
-
-                            
-
                             // TODO - Do something with it.
-
                             if($license_data->result == 'success'){//Success was returned for the license activation
-
-                                
-
                                 //Uncomment the followng line to see the message that returned from the license server
-
                                 softsdev_notice('The following message was returned from the server: '.$license_data->message, 'updated');
-
-                                
-
                                 //Remove the licensse key from the options table. It will need to be activated again.
-
                                 update_option('delivery_date_license_key', '');
-
                             }
-
                             else{
-
                                 //Show error to the user. Probably entered incorrect license key.
-
-                                
-
                                 //Uncomment the followng line to see the message that returned from the license server
-
                                 softsdev_notice('The following message was returned from the server: '.$license_data->message, 'error');
-
                             }
-
-                            
-
                         }
-
                         /*** End of  license deactivation ***/
-
                 ?>               
-
                     <p>Please enter the license key for this product to activate it. You were given a license key when you purchased this item.</p>
-
                     <form id="woo_dd_license" action="<?php echo $_SERVER['PHP_SELF'] . '?page=delivery-date' ?>" method="post">
-
                         <table class="form-table">
-
                             <tr>
-
                                 <th style="width:100px;"><label for="delivery_date_license_key">License Key</label></th>
-
                                 <td ><input class="regular-text" type="text" id="delivery_date_license_key" name="delivery_date_license_key" value="<?php echo get_option('delivery_date_license_key'); ?>" ></td>
-
                             </tr>
-
                         </table>
-
                         <p class="submit">
-
                             <input type="submit" name="activate_license" value="Activate" class="button-primary" />
-
                             <input type="submit" name="deactivate_license" value="Deactivate" class="button" />
-
                         </p>
-
                     </form>
-
                 </div>
                  </div>
                  <div class="right-dd-paid ">
@@ -651,7 +469,6 @@ EOD;
                 <link href="//cdn-images.delivery_date.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
                 <style type="text/css">
                     #mc_embed_signup{clear:left; font:14px Helvetica,Arial,sans-serif; }
-
                 </style>
                 <div id="mc_embed_signup" style="border-bottom:1px solid #ccc">
                     <form action="//dreamfoxmedia.us3.list-manage.com/subscribe/post?u=a0293a6a24c69115bd080594e&amp;id=131c5e0c11" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
@@ -676,123 +493,62 @@ EOD;
                         </li>
                     </ul>
                     <p><?php echo sprintf( __( 'If your answer can not be found in the resources listed above, please use the <a href="%s">support forums on WordPress.org</a>.', 'softsdev' ), 'https://wordpress.org/support/plugin/woocommerce-delivery-date' ); ?></p>
-
                     <p><?php echo sprintf( __( 'Found a bug? Please <a href="%s">open an issue on GitHub</a>.', 'softsdev' ), 'https://github.com/dreamfoxnl' ); ?></p>
                 </div>
             </div>
-
-
-
-
-
-
                 <script type="text/javascript"> 
-
                         jQuery(document).ready(function () {
-
                             jQuery("#applicable_category input:checkbox").change(function () {
-
                                 var is_checked = jQuery(this).is(':checked');
-
                                 if (is_checked)
-
                                     jQuery(this).attr('checked', 'checked').parents('li').addClass('checked');
-
                                 else
-
                                     jQuery(this).parents('li').removeClass('checked');
-
                             });
-
                         });
-
                 </script>
-
                 <?php
-
                 $locale = getJqueryUII18nLocale();
-
                 if ($locale) {
-
                         wp_enqueue_script('jquery-ui-i18n-' . $locale, 'http://jquery-ui.googlecode.com/svn/tags/latest/ui/i18n/jquery.ui.datepicker-' . $locale . '.js', array('jquery-ui-datepicker'));
-
                 }  else {
-
                         wp_enqueue_script('jquery-ui-datepicker');
-
                 }
-
                 wp_enqueue_style('wdd_admin');
                 wp_enqueue_style('style_new');
-
                 wp_enqueue_style('jquery-ui-css');
                 $current_date = date($date_format, strtotime(current_time('mysql')));
                 echo '<script language="javascript">jQuery(document).ready(function(){
-
 					jQuery(".start_date, .end_date").width("150px");
-
-				
-
 					 jQuery( ".start_date" ).datepicker({
-
 						defaultDate: "+1w",
-
 						changeMonth: true,
-
 						changeYear: true,
-
 						minDate: "'.$current_date.'",
-
-						dateFormat: "' . $js_date_format . '",						
-
-						numberOfMonths: 2,
-
+						dateFormat: "' . $js_date_format . '",
+                                                numberOfMonths: 2,
 						yearRange: "' . date('Y') . ':' . (date('Y') + 4) . '",						
-
-
-
 					});
-
 					jQuery( ".end_date" ).datepicker({
-
 						defaultDate: "+1w",
-
 						changeMonth: true,
-
 						changeYear: true,												
                         minDate: "'.$current_date.'",
 						dateFormat: "' . $js_date_format . '",						
-
 						numberOfMonths: 2,
-
 						yearRange: "' . date('Y') . ':' . (date('Y') + 4) . '",						
-
-
-
 					});	
-
 				});</script>';
-
-
-
                 echo '</div>';
-
         }
-
-
-
         /**
          * Get the locale according to the format available in the jquery ui i18n file list
          * @url https://github.com/jquery/jquery-ui/tree/master/ui/i18n
          * @return string ex: "fr" ou "en-GB"
          */
-
         function getJqueryUII18nLocale() {
-
                 //replace _ by - in "en_GB" for example
-
                 $locale = str_replace('_', '-', get_locale());
-
                 switch ($locale) {
                         case 'ar-DZ':
                         case 'cy-GB':
@@ -807,206 +563,86 @@ EOD;
                         case 'zh-CN':
                         case 'zh-HK':
                         case 'zh-TW':
-
                                 //For all this locale do nothing the file already exist
-
                                 break;
-
                         default:
-
                                 //for other locale keep the first part of the locale (ex: "fr-FR" -> "fr")
-
                                 $locale = substr($locale, 0, strpos($locale, '-'));
-
                                 //English is the default locale
-
                                 $locale = ($locale == 'en') ? '' : $locale;
-
                                 break;
-
                 }
-
-
-
                 return $locale;
-
         }
-
-
-
         /* ----------------------------------------------------- */
-
-
-
         /**
          * @global type $woocommerce
          * @param type $fields
          * @return string
          */
-
         function softsdev_dd_checkout_field($fields) {
-
                 $date_format = get_option('date_format');
-
                 $js_date_format = softsdev_date_format_php_to_js(get_option('date_format'));
-
-
-
                 $show_delivery_datepicker = false;
-
                 $max_day = '';
-
-
-
-                $dd_setting = get_option('delivery_date_full_setting');
-
+                $dd_setting = get_option('delivery_date_full_setting', array());
                 $applicable_categories = ( $dd_setting ) && array_key_exists('categories', $dd_setting) ? $dd_setting['categories'] : array();
-
-
-
                 global $woocommerce;
-
                 $cart_products = $woocommerce->cart->get_cart();
-
                 foreach ($cart_products as $_product) {
-
                         $category_list = wp_get_post_terms($_product['product_id'], 'product_cat', array('fields' => 'ids'));
-
-
-
-
-
                         foreach ($category_list as $category_id) {
-
                                 $softsdev_dd_day_cat = get_woocommerce_term_meta($category_id, 'softsdev_dd_days');
-
                                 /**
                                  * Finding maximum days for category
                                  */
-
                                 if ($softsdev_dd_day_cat !== '' && $softsdev_dd_day_cat > $max_day) {
-
                                         $max_day = $softsdev_dd_day_cat;
-
                                 }
-
                         }
-
                         $is_common = array_intersect($category_list, $applicable_categories);
-
                         if (count($is_common) && $show_delivery_datepicker == false) {
-
                                 $show_delivery_datepicker = true;
-
                         }
-
                 }
-
-
-
                 if ($show_delivery_datepicker === false) {
-
                         return $fields;
-
                 } else {
-
                         $dates_to_deliver = $max_day !== '' ? $max_day : ( isset($dd_setting['no_of_days_to_deliver']) && is_numeric($dd_setting['no_of_days_to_deliver']) ? $dd_setting['no_of_days_to_deliver'] : 0 );
-
                         $locale = getJqueryUII18nLocale();
-
                         if ($locale) {
-
                                 wp_enqueue_script('jquery-ui-i18n-' . $locale, 'http://jquery-ui.googlecode.com/svn/tags/latest/ui/i18n/jquery.ui.datepicker-' . $locale . '.js', array('jquery-ui-datepicker'));
-
                         }  else {
-
                                 wp_enqueue_script('jquery-ui-datepicker');
-
                         }
-
                         wp_enqueue_style('wdd_front');
                         wp_enqueue_style('jquery-ui-css');
-
                         $is_dd_required = array_key_exists('other_settings', $dd_setting) && is_array($dd_setting['other_settings']) && array_key_exists('is_dd_required', $dd_setting['other_settings']) ? $dd_setting['other_settings']['is_dd_required'] : '';
-
                         $show_empty_dd = array_key_exists('other_settings', $dd_setting) && is_array($dd_setting['other_settings']) && array_key_exists('show_empty_dd', $dd_setting['other_settings']) ? $dd_setting['other_settings']['show_empty_dd'] : '';
-
-
-
                         $count_only_working_days = array_key_exists('count_only_working_days', $dd_setting['holyday_weekends']) ? $dd_setting['holyday_weekends']['count_only_working_days'] : 0;
-
                         $disable_days = array_key_exists('disable_days', $dd_setting['holyday_weekends']) ? $dd_setting['holyday_weekends']['disable_days'] : array();
-
-
-
                         $holydays = array_key_exists('holydays', $dd_setting['holyday_weekends']) ? $dd_setting['holyday_weekends']['holydays'] : array();
-
-
-
                         $count = 0;
-
-
-
                         // combine weekends and disable_days
-
                         $disable_days[] = 999;
-
                         $_dates_of_holydays = array();
-
-
-
                         if (is_array($holydays) && $holydays) {
-
                                 foreach ($holydays as $holiday) {
-
                                     if($holiday['start_date'] != ""){
-                                        //$_dates_of_holydays[] = softsdev_date_range($holiday['start_date'], $holiday['end_date'], '+1 day', $date_format);
                                         $_dates_of_holydays[] = softsdev_date_range($holiday['start_date'], $holiday['end_date'], '+1 day','Y-m-d');
                                     }
-
                                 }
-
                         }
-
                         $dates_of_holydays = array_flatten($_dates_of_holydays);
-
-
-
                         //$dates_of_holydays = ( $holydays ) ? softsdev_date_range($holydays['start_date'], $holydays['end_date'], '+1 day', $date_format) : array();
-
-
-
                         $week_ends = array(1, 7);
-
                         $holy = 0;
-
-
-
-                        //$current_date = date($date_format, current_time('timestamp', 0));
                         $current_date = date($date_format, strtotime(current_time('mysql')));
-
                         while ($dates_to_deliver >= $count) {
-
                                 $min_delivery_date = softsdev_create_from_format($date_format, $current_date, $count);
-
-
-
                                 $day = date('w', softsdev_strtotime($min_delivery_date)) + 1;
-
-
-
-                                // Check if needs to exclude week ends or some specific day or date
-
-                                /*if (( $count_only_working_days && in_array($day, $week_ends) ) || in_array($min_delivery_date, $dates_of_holydays)) {
-
-                                        $dates_to_deliver++;
-
-                                }*/
-
                                 $count++;
-
                         }
-
                         $dates_to_deliver = $dates_to_deliver + $holy;
                         if($dates_to_deliver == 0){
                             $dates_to_deliver = $current_date;
@@ -1014,13 +650,8 @@ EOD;
                             $current_date_f = date('m/d/Y',strtotime($current_date));
                             $dates_to_deliver = date($date_format, strtotime($current_date_f."+$dates_to_deliver days"));
                         }
-
                         $_min_delivery_date = $min_delivery_date;
-
-
-
                         // Skip if date is disable
-
                         for ($i = 0; $i < 7; $i++) {
                                 $min_delivery_date = softsdev_create_from_format($date_format, $_min_delivery_date, $i);
                                 $day = date('w', softsdev_strtotime($min_delivery_date)) + 1;
@@ -1030,16 +661,12 @@ EOD;
                                         $min_delivery_date = softsdev_create_from_format($date_format, $min_delivery_date, $i);
                                 }
                         }
-
                         // REgister script for checkout
-
                         wp_register_script('dd_checkout_script', plugins_url('/js/dd_checkout_script.js', __FILE__));
                         wp_enqueue_script('dd_checkout_script');
                         $delivery_date_label = array_key_exists('other_settings', $dd_setting) && is_array($dd_setting['other_settings']) && array_key_exists('delivery_date_label', $dd_setting['other_settings']) && $dd_setting['other_settings']['delivery_date_label'] ? $dd_setting['other_settings']['delivery_date_label'] : __('Select delivery date', 'softsdev');
                         $delivery_date_field_desc = array_key_exists('other_settings', $dd_setting) && is_array($dd_setting['other_settings']) && array_key_exists('delivery_date_field_desc', $dd_setting['other_settings']) && $dd_setting['other_settings']['delivery_date_field_desc'] ? $dd_setting['other_settings']['delivery_date_field_desc'] : __('We will try our best to deliver your order on the specified date', 'softsdev');
-
                         // Setting all JavaScript variables
-
                         $translation_array = array(
                             'holydays' => implode(',', $dates_of_holydays),
                             'days_dis' => implode(',', $disable_days),
@@ -1048,7 +675,6 @@ EOD;
                             'year_range' => date('Y') . ':' . (date('Y') + 4),
                             'msg_text' => $delivery_date_field_desc
                         );
-
                         wp_localize_script('dd_checkout_script', 'dd', $translation_array);
                         $fields['delivery_date'] = array(
                             'delivery_date' => apply_filters('checkout_delivery_filed_setting', array(
@@ -1061,29 +687,20 @@ EOD;
                         );
                 }
                 return $fields;
-
         }
-
-
-
         /**
          * Update the order meta with field value
          * @param type $order_id
          */
-
         function softsdev_dd_checkout_field_update_order_meta($order_id) {
                 if (isset($_POST['delivery_date']) && !empty($_POST['delivery_date'])) {
                         update_post_meta($order_id, 'Delivery Date', esc_attr($_POST['delivery_date']));
                 }
         }
-
-
-
         /**
          * 
          * @param type $order
          */
-
         function softsdev_dd_order_view($order) {
                 $delivery_date = @get_post_meta($order->id, 'Delivery Date', true);
                 if (!empty($delivery_date)) {
@@ -1095,13 +712,11 @@ EOD;
                         echo '</div>';
                 }
         }
-
         /**
          * 
          * @param type $order
          * @param type $is_admin_email
          */
-
         function softsdev_dd_email_with_delivery_date($order, $is_admin_email) {
                 $delivery_date = @get_post_meta($order->id, 'Delivery Date', true);
                 if (!empty($delivery_date)) {
@@ -1114,7 +729,6 @@ EOD;
         /**
          * display the extra field on the checkout form
          */
-
         function softsdev_extra_checkout_fields() {
                 $checkout = WC()->checkout();
                 if (!array_key_exists('delivery_date', $checkout->checkout_fields))
@@ -1128,12 +742,10 @@ EOD;
                 </div>
                 <?php
         }
-
         /**
          * display the extra data in the order admin panel
          * @param type $order
          */
-
         function softsdev_display_order_data_in_admin($order) {
                 ?>
                 <div class="order_data_column">
@@ -1141,11 +753,7 @@ EOD;
                 <?php echo '<p>' . get_post_meta($order->id, 'Delivery Date', true) . '</p>'; ?>
                 </div>
                 <?php
-
         }
-
-
-
         /* --------COMMON FUNCTION---------- */
         /**
          * 
@@ -1155,60 +763,40 @@ EOD;
          * @param type $format
          * @return type
          */
-
         function softsdev_date_range($first, $last, $step = '+1 day', $format = 'd-m-Y') {
                 $dates = array();
                 $current = strtotime($first);
                 $last = strtotime($last);
-
                 /**
                  * 
                  */
-
                 while ($current <= $last) {
                         $dates[] = date($format, $current);
                         $current = strtotime($step, $current);
                 }
                 return $dates;
         }
-
         /**
          * 
          * @param type $dateString
          * @return type
          */
-
         function softsdev_date_format_php_to_js($dateString) {
                 $pattern = array(
-
                     //day
-
                     'd', //day of the month
-
                     'j', //3 letter name of the day
-
                     'l', //full name of the day
-
                     'z', //day of the year
-
                     //month
-
                     'F', //Month name full
-
                     'M', //Month name short
-
                     'n', //numeric month no leading zeros
-
                     'm', //numeric month leading zeros
-
                     //year
-
                     'Y', //full numeric year
-
                     'y' //numeric year: 2 digit
-
                 );
-
                 $replace = array(
                     'dd', 'd', 'DD', 'o',
                     'MM', 'M', 'm', 'mm',
@@ -1218,11 +806,7 @@ EOD;
                         $p = '/' . $p . '/';
                 }
                 return preg_replace($pattern, $replace, $dateString);
-
         }
-
-
-
         /**
          * 
          * @param type $date_format
@@ -1230,21 +814,16 @@ EOD;
          * @param type $days
          * @return type
          */
-
         function softsdev_create_from_format($date_format, $date, $days = '') {
                 $dt = SoftsdevDDDateTime::createFromFormat($date_format, $date);
                 $date = $days ? $dt->modify('+' . ( $days ) . ' day')->format($date_format) : $dt->format($date_format);
                 return $date;
         }
-
-
-
         /**
          * 
          * @param type $array
          * @return boolean
          */
-
         function array_flatten($array) {
                 if (!is_array($array)) {
                         return FALSE;
@@ -1259,13 +838,11 @@ EOD;
                 }
                 return array_unique($result);
         }
-
         /**
          * 
          * @param type $date
          * @return type
          */
-
         function softsdev_strtotime($date) {
                 $timestamp = strtotime($date);
                 if ($timestamp === FALSE) {
@@ -1273,11 +850,9 @@ EOD;
                 }
                 return $timestamp;
         }
-
         /**
          * SoftsdevDDDateTime Class
          */
-
         class SoftsdevDDDateTime extends DateTime {
                 public static function createFromFormat($format, $time, $timezone = null) {
                         $version = phpversion();

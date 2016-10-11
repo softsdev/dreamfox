@@ -8,7 +8,7 @@
  * Description: Extend Woocommerce plugin to add payments methods to a product
  * Requires at least: 3.7
  * Tested up to: 4.6.1
- * @Developer : Hoang Xuan Hao / Marco van Loghum Slaterus ( Dreamfoxmedia )
+ * @Developer : Anand Rathi (Softsdev) / Hoang Xuan Hao / Marco van Loghum Slaterus ( Dreamfoxmedia )
  */
 //require_once ABSPATH . WPINC . '/pluggable.php';;
 //require_once dirname(dirname(__FILE__)).'/woocommerce/classes/class-wc-payment-gateways.php';
@@ -302,5 +302,4 @@ EOD;
             echo $html;
         }
     }
-
 ?>

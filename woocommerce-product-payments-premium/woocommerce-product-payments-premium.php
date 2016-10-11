@@ -8,7 +8,7 @@
  * Description: Extend Woocommerce plugin to add payments methods to a product
  * Requires at least: 3.7
  * Tested up to: 4.6.1
- * @Developer : Hoang Xuan Hao / Marco van Loghum Slaterus ( Dreamfoxmedia )
+ * @Developer : Anand Rathi (Softsdev) / Hoang Xuan Hao / Marco van Loghum Slaterus ( Dreamfoxmedia )
  */
 define('PRODUCT_PAYMENTS_SECRET_KEY', '568ef1d445c081.84974482'); //Rename this constant name so it is specific to your plugin or theme.
 // This is the URL where API query request will be sent to. This should be the URL of the site where you have installed the main license manager plugin. Get this value from the integration help page.
@@ -421,5 +421,4 @@ EOD;
                  </form>  <?php
              }            
 }
-   
-        ?>
+?>

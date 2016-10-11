@@ -7,8 +7,8 @@
  * Author URI: www.dreamfoxmedia.com 
  * Description: Extend Woocommerce plugin to add shipping methods to a product
  * Requires at least: 3.7
- * Tested up to: 4.6
- * @Developer : Hoang Xuan Hao / Marco van Loghum Slaterus ( Dreamfoxmedia )
+ * Tested up to: 4.6.1
+ * @Developer : Anand Rathi (Softsdev) / Hoang Xuan Hao / Marco van Loghum Slaterus ( Dreamfoxmedia )
  */
 if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins')))) {
     add_action('admin_enqueue_scripts', 'softsdev_product_shippings_enqueue');
@@ -50,6 +50,8 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
                 Works on latest Woocommerce version.
                 This plugin allows you to improve your customer service by giving the best shipping service for your customers.</p>
             <p>This version is limited in features (you can only select gateways for 10 products). For a small fee you can get the Premium version with <a href="http://www.dreamfoxmedia.com/shop/woocommerce-shipping-gateway-per-product-premium/#utm_source=wp-plugin&utm_medium=wcsgpp&utm_campaign=portfolio">no limitations</a>!</p>
+                    <?php softsdev_sdwps_plugin_settings() ?>
+
         </div>
         <div class="right-mc-setting">
             <div style="border: 5px dashed #B0E0E6; padding: 0 20px; background: white;">
@@ -174,50 +176,76 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
     }
 
     function wps_shipping_method_disable_country($available_methods) {
+        
         global $woocommerce;
-        $_available_methods = $available_methods;
-        $temp = array();
-        $arrayKeys = array_keys($available_methods);
         if (count($woocommerce->cart)) {
             $items = $woocommerce->cart->cart_contents;
             $itemsShips = '';
+            $ships = array();
             if (is_array($items)) {
                 foreach ($items as $item) {
                     $itemsShips = get_post_meta($item['product_id'], 'shippings', true);
-                    if (!empty($itemsShips)) {
-                        foreach ($arrayKeys as $key) {
-                            if (array_key_exists($key, $available_methods)) {
-                                $method_id = $available_methods[$key]->method_id;
-                                if (!empty($method_id) && !in_array($method_id, $itemsShips)) {
-                                    unset($available_methods[$key]);
-                                }
-                            }
-                        }
-                        $temp = array_merge($temp, $itemsShips);
+                    if (!empty($itemsShips) && count($itemsShips)) {
+                        $ships[] = $itemsShips;
                     }
                 }
             }
         }
-        // Calculatting max shipping
-        $maxcost_shipping = array();
-        $max_cost = -1;
-        foreach ($_available_methods as $key => $available_method) {
-            if (array_key_exists($key, $_available_methods)) {
-                $method_id = $available_method->method_id;
-                if ($available_method->cost > $max_cost && in_array($method_id, $temp)) {
-                    $max_cost = $available_method->cost;
-                    $maxcost_shipping = array($key => $available_method);
+        /**
+         * filter criteria to refresh methods
+         */
+        if( count($ships) > 0 ){
+            foreach ($woocommerce->shipping->load_shipping_methods() as $shipping_method){
+                $_ships[] = $shipping_method->id;
+            }            
+            $ships[] = $_ships;
+            #If shipping is selected
+            $filtered_ship = call_user_func_array('array_intersect',$ships);
+            if(count($filtered_ship) > 0){
+                #if common ship founds
+                /**
+                 * logic for set common shipping
+                 */
+                foreach( $available_methods as $key => $shipping ){
+                    if(!in_array($shipping->method_id, $filtered_ship)){
+                        unset($available_methods[$key]);
+                    }
+                }
+            }else{
+                #if common ship not found
+                /**
+                 * logic for default ship
+                 * min max
+                 */
+                $cost_rate = array();
+                foreach( $available_methods as $key => $shipping ){
+                    $cost_rate[$key] = $shipping->cost;
+                }
+                $softsdev_wps_plugin_settings = get_option('sdwps_plugin_settings', array('default_option_mp'=>'expensive'));
+                switch ($softsdev_wps_plugin_settings['default_option_mp']) {
+                    case 'expensive':
+                        $aplicable_shipping = array_keys($cost_rate, max($cost_rate));
+                        break;
+                    case 'cheapest':
+                        $aplicable_shipping = array_keys($cost_rate, min($cost_rate));
+                        break;
+                    default:
+                        $aplicable_shipping = array();
+                        break;
+                }
+                /**
+                 * remove non aplicable shipping
+                 */
+                foreach( $available_methods as $_key => $_shipping ){
+                    if( !in_array($_key, $aplicable_shipping) ){
+                        unset($available_methods[$_key]);
+                    }
                 }
             }
         }
-        // Showing Max value shipping
-        if (count($available_methods)) {
-            return $available_methods;
-        } else {
-            return count($maxcost_shipping) ? $maxcost_shipping : $available_methods;
-        }
+        return $available_methods;
     }
-
+    
     // update new filter as depricated woocommerce_available_shipping_methods
     // 
     add_filter('woocommerce_package_rates', 'wps_shipping_method_disable_country', 99);
@@ -242,5 +270,49 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
     }
 
     add_action('wp_head', 'update_user_database');
+    
+    /**
+     * Setting form
+     */
+    function softsdev_sdwps_plugin_settings() {
+        /**
+         * Settings default
+         */
+        if (isset($_POST['sdwps_setting'])) {
+            update_option('sdwps_plugin_settings', $_POST['sdwps_setting']);
+            softsdev_notice('Product Shippings setting is updated.', 'updated');
+        }
+        $softsdev_wps_plugin_settings = get_option('sdwps_plugin_settings', array('default_option_mp'=>'expensive'));
+        $default_option_mp = $softsdev_wps_plugin_settings['default_option_mp'];
+        ?>
+        <form id="woo_sdwps" action="<?php echo $_SERVER['PHP_SELF'] . '?page=softsdev-product-shippings' ?>" method="post">
+            <div class="postbox " style="padding: 10px 0; margin: 10px 0px;">
+                <h3 class="hndle"><?php echo __('multiple products in cart with different shipping gateway', 'softsdev'); ?></h3>
+                <select id="sdwps_default_payment" name="sdwps_setting[default_option_mp]">
+                    <option value="none" <?php selected( $default_option_mp, 'none' ) ?>>Do not show shipping gateway</option>
+                    <option value="cheapest" <?php selected( $default_option_mp, 'cheapest' ) ?>>Choose the cheapest gateway</option>
+                    <option value="expensive" <?php selected( $default_option_mp, 'expensive' ) ?>>Choose the expensive gateway</option>
+                </select>
+                <br />
+                <small><?php echo __('In case of multiple products from diffrent shipping', 'softsdev'); ?></small>
+            </div>
+            <input class="button-large button-primary" type="submit" value="Save changes" />
+        </form>  <?php
+    }    
 }
+
+    /**
+     * Type: updated,error,update-nag
+     */
+    if (!function_exists('softsdev_notice')) {
+        function softsdev_notice($message, $type)
+        {
+            $html = <<<EOD
+<div class="{$type} notice">
+<p>{$message}</p>
+</div>
+EOD;
+            echo $html;
+        }
+    }
 ?>

@@ -20,23 +20,29 @@ define('PRODUCT_SHIPPINGS_ITEM_REFERENCE', 'Product Shippings'); //Rename this c
  */
 if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins'))) && !function_exists('softsdev_product_shippings_settings')) {
     /* ----------------------------------------------------- */
-    // update checker
+// update checker
     require_once 'plugin-update-checker/plugin-update-checker.php';
     $MyUpdateChecker = PucFactory::buildUpdateChecker(
                     'http://www.dreamfoxmedia.com/update-plugins/?action=get_metadata&slug=woocommerce-product-shippings-full', //Metadata URL.
                     __FILE__, //Full path to the main plugin file.
                     'woocommerce-product-shippings-full' //Plugin slug. Usually it's the same as the name of the directory.
     );
-    // Submenu on woocommerce section
+// Submenu on woocommerce section
     add_action('admin_menu', 'softsdev_product_shippings_submenu_page');
     /* ----------------------------------------------------- */
     add_action('admin_enqueue_scripts', 'softsdev_product_shippings_enqueue');
     /* ----------------------------------------------------- */
 
+    /**
+     * 
+     */
     function softsdev_product_shippings_submenu_page() {
         add_submenu_page('woocommerce', __('Product Shippings', 'softsdev'), __('Product Shippings', 'softsdev'), 'manage_options', 'softsdev-product-shippings', 'softsdev_product_shippings_settings');
     }
 
+    /**
+     * 
+     */
     function softsdev_product_shippings_enqueue() {
         wp_enqueue_style('softsdev_product_shippings_enqueue', plugin_dir_url(__FILE__) . '/css/style.css');
     }
@@ -52,7 +58,7 @@ if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_
             'secret_key' => PRODUCT_SHIPPINGS_SECRET_KEY,
             'license_key' => $license_key,
         );
-        // Send query to the license manager server
+// Send query to the license manager server
         $query = esc_url_raw(add_query_arg($api_params, PRODUCT_SHIPPINGS_LICENSE_SERVER_URL));
         $response = wp_remote_get($query, array('timeout' => 20, 'sslverify' => false));
         $has_valid_license = false;
@@ -115,7 +121,7 @@ EOD;
         echo '<h2 class="title">' . __('Woocommerce Product Shippings', 'softsdev') . '</h2>';
         ?>
         <div class="left-mc-paid">
-                <?php if (softsdev_product_shippings_has_valid_license()): ?>
+            <?php if (softsdev_product_shippings_has_valid_license()): ?>
                 <form id="woo_dd" action="<?php echo $_SERVER['PHP_SELF'] . '?page=softsdev-product-shippings' ?>" method="post">
                     <div class="postbox " style="padding: 10px; margin: 10px 0px;">
                         <h3 class="hndle"><?php echo __('Product payment Setting', 'softsdev'); ?></h3>
@@ -125,7 +131,7 @@ EOD;
                     <!-- <input class="button-large button-primary" type="submit" value="Save Changes" /> -->
                 </form>
                 <div class="license-key-new">
-                    <?php else: ?>
+                <?php else: ?>
                     <div class="license-key">
                     <?php endif; ?>            
                     <?php
@@ -212,6 +218,7 @@ EOD;
                         </p>
                     </form>
                 </div>
+                <?php softsdev_sdwps_plugin_settings(); ?>
             </div>
             <div class="right-mc-paid">
                 <div style="border: 5px dashed #B0E0E6; padding: 0 20px; background: white;">
@@ -248,167 +255,228 @@ EOD;
             <?php
         }
 
-    }
-    if (softsdev_product_shippings_has_valid_license()) {
-        add_action('add_meta_boxes', 'wps_ship_meta_box_add', 50);
-    }
-
-    // add_action('add_meta_boxes', 'wps_ship_meta_box_add', 50);
-    function wps_ship_meta_box_add() {
-        add_meta_box('shippings', 'shippings', 'wps_shipping_form', 'product', 'side', 'core');
-    }
-
-    /**
-     * 
-     * @global type $post
-     * @global type $woocommerce
-     */
-    function wps_shipping_form() {
-        global $post, $woocommerce;
-        $productIds = get_option('woocommerce_product_apply_ship', array());
-        $postshippings = count(get_post_meta($post->ID, 'shippings', true)) ? get_post_meta($post->ID, 'shippings', true) : array();
-        if (is_array($productIds)) {
-            foreach ($productIds as $key => $product) {
-                if (!get_post($product) || !count(get_post_meta($product, 'shippings', true)))
-                    unset($productIds[$key]);
-            }
+        /**
+         * 
+         */
+        if (softsdev_product_shippings_has_valid_license()) {
+            add_action('add_meta_boxes', 'wps_ship_meta_box_add', 50);
         }
-        update_option('woocommerce_product_apply_ship', $productIds);
-        $productIds = get_option('woocommerce_product_apply_ship', array());
-        if ($woocommerce->shipping->load_shipping_methods())
-            foreach ($woocommerce->shipping->load_shipping_methods() as $key => $method) {
-                if (apply_filters('softsdev_show_disabled_shippings', false) || $method->enabled == 'yes')
-                    $shippings[$key] = $method;
-            }
-        foreach ($shippings as $ship) {
-            if ($ship->enabled == 'yes') {
-                $checked = '';
-                if (is_array($postshippings) && in_array($ship->id, $postshippings))
-                    $checked = ' checked="checked" ';
-                ?>  
-                <input type="checkbox" <?php echo $checked; ?> value="<?php echo $ship->id; ?>" name="ship[]" id="ship_<?php echo $ship->id ?>" />
-                <label for="ship_<?php echo $ship->id ?>"><?php echo $ship->method_title; ?></label>  
-                <br />  
-                <?php
-            }
-        }
-    }
 
-    add_action('save_post', 'wps_ship_meta_box_save', 10, 2);
+        // add_action('add_meta_boxes', 'wps_ship_meta_box_add', 50);
+        function wps_ship_meta_box_add() {
+            add_meta_box('shippings', 'shippings', 'wps_shipping_form', 'product', 'side', 'core');
+        }
 
-    /**
-     * 
-     * @param type $post_id
-     * @param type $post
-     * @return type
-     */
-    function wps_ship_meta_box_save($post_id, $post) {
-        // Restrict to save for autosave
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-            return $post_id;
-        }
-        // Restrict to save for revisions
-        if (isset($post->post_type) && $post->post_type == 'revision') {
-            return $post_id;
-        }
-        if (isset($_POST['post_type']) && $_POST['post_type'] == 'product' && isset($_POST['ship'])) {
-            $productIds = get_option('woocommerce_product_apply_ship');
-            if (is_array($productIds) && !in_array($post_id, $productIds)) {
-                $productIds[] = $post_id;
-                update_option('woocommerce_product_apply_ship', $productIds);
-            }
-            //delete_post_meta($post_id, 'shippings');
-            $shippings = array();
-            if ($_POST['ship']) {
-                foreach ($_POST['ship'] as $ship) {
-                    $shippings[] = $ship;
+        /**
+         * 
+         * @global type $post
+         * @global type $woocommerce
+         */
+        function wps_shipping_form() {
+            global $post, $woocommerce;
+            $productIds = get_option('woocommerce_product_apply_ship', array());
+            $postshippings = count(get_post_meta($post->ID, 'shippings', true)) ? get_post_meta($post->ID, 'shippings', true) : array();
+            if (is_array($productIds)) {
+                foreach ($productIds as $key => $product) {
+                    if (!get_post($product) || !count(get_post_meta($product, 'shippings', true)))
+                        unset($productIds[$key]);
                 }
             }
-            if (count($shippings))
-                update_post_meta($post_id, 'shippings', $shippings);
-            else
-                delete_post_meta($post_id, 'shippings');
+            update_option('woocommerce_product_apply_ship', $productIds);
+            $productIds = get_option('woocommerce_product_apply_ship', array());
+            if ($woocommerce->shipping->load_shipping_methods())
+                foreach ($woocommerce->shipping->load_shipping_methods() as $key => $method) {
+                    if (apply_filters('softsdev_show_disabled_shippings', false) || $method->enabled == 'yes')
+                        $shippings[$key] = $method;
+                }
+            foreach ($shippings as $ship) {
+                if ($ship->enabled == 'yes') {
+                    $checked = '';
+                    if (is_array($postshippings) && in_array($ship->id, $postshippings))
+                        $checked = ' checked="checked" ';
+                    ?>  
+                    <input type="checkbox" <?php echo $checked; ?> value="<?php echo $ship->id; ?>" name="ship[]" id="ship_<?php echo $ship->id ?>" />
+                    <label for="ship_<?php echo $ship->id ?>"><?php echo $ship->method_title; ?></label>  
+                    <br />  
+                    <?php
+                }
+            }
         }
-    }
 
-    /**
-     * 
-     * @global type $woocommerce
-     * @param type $available_methods
-     * @return type
-     */
-    function wps_shipping_method_disable_country($available_methods) {
-        global $woocommerce;
-        $_available_methods = $available_methods;
-        $temp = array();
-        $arrayKeys = array_keys($available_methods);
-        if (count($woocommerce->cart)) {
-            $items = $woocommerce->cart->cart_contents;
-            $itemsShips = '';
-            if (is_array($items)) {
-                foreach ($items as $item) {
-                    $itemsShips = get_post_meta($item['product_id'], 'shippings', true);
-                    if (!empty($itemsShips)) {
-                        foreach ($arrayKeys as $key) {
-                            if (array_key_exists($key, $available_methods)) {
-                                $method_id = $available_methods[$key]->method_id;
-                                if (!empty($method_id) && !in_array($method_id, $itemsShips)) {
-                                    unset($available_methods[$key]);
-                                }
-                            }
+        add_action('save_post', 'wps_ship_meta_box_save', 10, 2);
+
+        /**
+         * 
+         * @param type $post_id
+         * @param type $post
+         * @return type
+         */
+        function wps_ship_meta_box_save($post_id, $post) {
+            // Restrict to save for autosave
+            if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+                return $post_id;
+            }
+            // Restrict to save for revisions
+            if (isset($post->post_type) && $post->post_type == 'revision') {
+                return $post_id;
+            }
+            if (isset($_POST['post_type']) && $_POST['post_type'] == 'product' && isset($_POST['ship'])) {
+                $productIds = get_option('woocommerce_product_apply_ship');
+                if (is_array($productIds) && !in_array($post_id, $productIds)) {
+                    $productIds[] = $post_id;
+                    update_option('woocommerce_product_apply_ship', $productIds);
+                }
+                //delete_post_meta($post_id, 'shippings');
+                $shippings = array();
+                if ($_POST['ship']) {
+                    foreach ($_POST['ship'] as $ship) {
+                        $shippings[] = $ship;
+                    }
+                }
+                if (count($shippings))
+                    update_post_meta($post_id, 'shippings', $shippings);
+                else
+                    delete_post_meta($post_id, 'shippings');
+            }
+        }
+
+        /**
+         * 
+         * @global type $woocommerce
+         * @param type $available_methods
+         * @return type
+         */
+        function wps_shipping_method_disable_country($available_methods) {
+            global $woocommerce;
+            if (!softsdev_product_shippings_has_valid_license()) {
+                return $available_methods;
+            }
+            if (count($woocommerce->cart)) {
+                $items = $woocommerce->cart->cart_contents;
+                $itemsShips = '';
+                $ships = array();
+                if (is_array($items)) {
+                    foreach ($items as $item) {
+                        $itemsShips = get_post_meta($item['product_id'], 'shippings', true);
+                        if (!empty($itemsShips) && count($itemsShips)) {
+                            $ships[] = $itemsShips;
                         }
-                        $temp = array_merge($temp, $itemsShips);
                     }
                 }
             }
-        }
-        // Calculatting max shipping
-        $maxcost_shipping = array();
-        $max_cost = -1;
-        foreach ($_available_methods as $key => $available_method) {
-            if (array_key_exists($key, $_available_methods)) {
-                $method_id = $available_method->method_id;
-                if ($available_method->cost > $max_cost && in_array($method_id, $temp)) {
-                    $max_cost = $available_method->cost;
-                    $maxcost_shipping = array($key => $available_method);
+            /**
+             * filter criteria to refresh methods
+             */
+            if (count($ships) > 0) {
+                foreach ($woocommerce->shipping->load_shipping_methods() as $shipping_method) {
+                    $_ships[] = $shipping_method->id;
+                }
+                $ships[] = $_ships;
+                #If shipping is selected
+                $filtered_ship = call_user_func_array('array_intersect', $ships);
+                if (count($filtered_ship) > 0) {
+                    #if common ship founds
+                    /**
+                     * logic for set common shipping
+                     */
+                    foreach ($available_methods as $key => $shipping) {
+                        if (!in_array($shipping->method_id, $filtered_ship)) {
+                            unset($available_methods[$key]);
+                        }
+                    }
+                } else {
+                    #if common ship not found
+                    /**
+                     * logic for default ship
+                     * min max
+                     */
+                    $cost_rate = array();
+                    foreach ($available_methods as $key => $shipping) {
+                        $cost_rate[$key] = $shipping->cost;
+                    }
+                    $softsdev_wps_plugin_settings = get_option('sdwps_plugin_settings', array('default_option_mp' => 'expensive'));
+                    switch ($softsdev_wps_plugin_settings['default_option_mp']) {
+                        case 'expensive':
+                            $aplicable_shipping = array_keys($cost_rate, max($cost_rate));
+                            break;
+                        case 'cheapest':
+                            $aplicable_shipping = array_keys($cost_rate, min($cost_rate));
+                            break;
+                        default:
+                            $aplicable_shipping = array();
+                            break;
+                    }
+                    /**
+                     * remove non aplicable shipping
+                     */
+                    foreach ($available_methods as $_key => $_shipping) {
+                        if (!in_array($_key, $aplicable_shipping)) {
+                            unset($available_methods[$_key]);
+                        }
+                    }
                 }
             }
-        }
-        // Showing Max value shipping
-        if (count($available_methods)) {
             return $available_methods;
-        } else {
-            return count($maxcost_shipping) ? $maxcost_shipping : $available_methods;
         }
-    }
 
-// update new filter as depricated woocommerce_available_shipping_methods
-    add_filter('woocommerce_package_rates', 'wps_shipping_method_disable_country', 99);
-    add_filter('softsdev_show_disabled_shippings', function() {
-        return true;
-    });
+        // update new filter as depricated woocommerce_available_shipping_methods
+        add_filter('woocommerce_package_rates', 'wps_shipping_method_disable_country', 99);
+        add_filter('softsdev_show_disabled_shippings', function() {
+            return true;
+        });
 
-    /**
-     * 
-     */
-    function update_user_database() {
-        $is_shipping_updated = get_option('is_shipping_updated');
-        if (!$is_shipping_updated) {
-            $args = array(
-                'posts_per_page' => -1,
-                'post_type' => 'product',
-                'fields' => 'ids'
-            );
-            $products = get_posts($args);
-            foreach ($products as $pro_id) {
-                $itemsShips = get_post_meta($pro_id, 'shippings', true);
-                if (empty($itemsShips)) {
-                    delete_post_meta($pro_id, 'shippings');
+        /**
+         * 
+         */
+        function update_user_database() {
+            $is_shipping_updated = get_option('is_shipping_updated');
+            if (!$is_shipping_updated) {
+                $args = array(
+                    'posts_per_page' => -1,
+                    'post_type' => 'product',
+                    'fields' => 'ids'
+                );
+                $products = get_posts($args);
+                foreach ($products as $pro_id) {
+                    $itemsShips = get_post_meta($pro_id, 'shippings', true);
+                    if (empty($itemsShips)) {
+                        delete_post_meta($pro_id, 'shippings');
+                    }
                 }
+                update_option('is_shipping_updated', true);
             }
-            update_option('is_shipping_updated', true);
         }
-    }
 
-    add_action('wp_head', 'update_user_database');
+        add_action('wp_head', 'update_user_database');
+
+        /**
+         * Setting form
+         */
+        function softsdev_sdwps_plugin_settings() {
+            /**
+             * Settings default
+             */
+            if (isset($_POST['sdwps_setting'])) {
+                update_option('sdwps_plugin_settings', $_POST['sdwps_setting']);
+                softsdev_notice('Product Shippings setting is updated.', 'updated');
+            }
+            $softsdev_wps_plugin_settings = get_option('sdwps_plugin_settings', array('default_option_mp' => 'expensive'));
+            $default_option_mp = $softsdev_wps_plugin_settings['default_option_mp'];
+            ?>
+            <form id="woo_sdwps" action="<?php echo $_SERVER['PHP_SELF'] . '?page=softsdev-product-shippings' ?>" method="post">
+                <div class="postbox " style="padding: 10px 0; margin: 10px 0px;">
+                    <h3 class="hndle"><?php echo __('multiple products in cart with different shipping gateway', 'softsdev'); ?></h3>
+                    <select id="sdwps_default_payment" name="sdwps_setting[default_option_mp]">
+                        <option value="none" <?php selected($default_option_mp, 'none') ?>>Do not show shipping gateway</option>
+                        <option value="cheapest" <?php selected($default_option_mp, 'cheapest') ?>>Choose the cheapest gateway</option>
+                        <option value="expensive" <?php selected($default_option_mp, 'expensive') ?>>Choose the expensive gateway</option>
+                    </select>
+                    <br />
+                    <small><?php echo __('In case of multiple products from diffrent shipping', 'softsdev'); ?></small>
+                </div>
+                <input class="button-large button-primary" type="submit" value="Save changes" />
+            </form>  <?php
+        }
+
+    }
     ?>
