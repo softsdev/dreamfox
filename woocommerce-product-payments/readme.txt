@@ -3,8 +3,8 @@ Contributors: dreamfox
 Donate link: http://www.dreamfoxmedia.com
 Tags: woocommerce,payments,plugin,free
 Requires at least: 3.0.1
-Tested up to: 4.4.2
-Stable tag: 1.2.5
+Tested up to: 4.6.1
+Stable tag: 1.2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,21 +61,21 @@ The simplest way to install is to click on 'Plugins' then 'Add' and type 'Woocom
 = For manual installation 1: =
 
 1. Login to your website and go to the Plugins section of your admin panel.
-1. Click the Add New button.
-1. Under Install Plugins, click the Upload link.
-1. Select the plugin zip file (woocommerce-product-payments.x.x.x.zip) from your computer then click the Install Now button.
-1. You should see a message stating that the plugin was installed successfully.
-1. Click the Activate Plugin link.
+2. Click the Add New button.
+3. Under Install Plugins, click the Upload link.
+4. Select the plugin zip file (woocommerce-product-payments.x.x.x.zip) from your computer then click the Install Now button.
+5. You should see a message stating that the plugin was installed successfully.
+6. Click the Activate Plugin link.
 
 = For manual installation 2: =
 
 1. You should have access to the server where WordPress is installed. If you don't, see your system administrator.
-1. Copy the plugin zip file (woocommerce-product-payments.x.x.x.zip) up to your server and unzip it somewhere on the file system.
-1. Copy the "woocommerce-product-payments" folder into the /wp-content/plugins directory of your WordPress installation.
-1. Login to your website and go to the Plugins section of your admin panel.
-1. Look for "woocommerce-product-payments" and click Activate.
-1. Upload `plugin-name.php` to the `/wp-content/plugins/` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
+2. Copy the plugin zip file (woocommerce-product-payments.x.x.x.zip) up to your server and unzip it somewhere on the file system.
+3. Copy the "woocommerce-product-payments" folder into the /wp-content/plugins directory of your WordPress installation.
+4. Login to your website and go to the Plugins section of your admin panel.
+5. Look for "woocommerce-product-payments" and click Activate.
+6. Upload `plugin-name.php` to the `/wp-content/plugins/` directory
+7. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently asked questions ==
 
@@ -98,6 +98,10 @@ For more information, feel free to visit the official website for this plugin: <
 3. screenshot3.png
 
 == Changelog ==
+= 1.2.6 =
+* Added option to select default payment gateway if you have no common payment in added cart products
+* Fix bug of limit
+
 = 1.2.5 =
 * updated for latest WooCommerce
 

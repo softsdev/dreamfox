@@ -102,7 +102,7 @@ if ((in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get
          */
         function softsdev_delivery_date_update_footer($text) {
             if(! empty( $_GET['page'] ) && strpos( $_GET['page'], 'delivery-date' ) === 0 ) {
-                $text = 'Version 1.0.7';
+                $text = 'Version 1.1.3';
             }
             return $text;   
         }
