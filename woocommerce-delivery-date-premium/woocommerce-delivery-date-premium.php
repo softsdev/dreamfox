@@ -510,7 +510,8 @@ EOD;
                 <?php
                 $locale = getJqueryUII18nLocale();
                 if ($locale) {
-                        wp_enqueue_script('jquery-ui-i18n-' . $locale, 'http://jquery-ui.googlecode.com/svn/tags/latest/ui/i18n/jquery.ui.datepicker-' . $locale . '.js', array('jquery-ui-datepicker'));
+                        $lang_path = plugins_url('/js/datepicker-native/datepicker-' . $locale . '.js', __FILE__);
+                        wp_enqueue_script('softsdev-jquery-ui-i18n-' . $locale, $lang_path, array('jquery-ui-datepicker'));
                 }  else {
                         wp_enqueue_script('jquery-ui-datepicker');
                 }
@@ -611,7 +612,8 @@ EOD;
                         $dates_to_deliver = $max_day !== '' ? $max_day : ( isset($dd_setting['no_of_days_to_deliver']) && is_numeric($dd_setting['no_of_days_to_deliver']) ? $dd_setting['no_of_days_to_deliver'] : 0 );
                         $locale = getJqueryUII18nLocale();
                         if ($locale) {
-                                wp_enqueue_script('jquery-ui-i18n-' . $locale, 'http://jquery-ui.googlecode.com/svn/tags/latest/ui/i18n/jquery.ui.datepicker-' . $locale . '.js', array('jquery-ui-datepicker'));
+                            $lang_path = plugins_url('/js/datepicker-native/datepicker-' . $locale . '.js', __FILE__);
+                            wp_enqueue_script('softsdev-jquery-ui-i18n-' . $locale, $lang_path, array('jquery-ui-datepicker'));
                         }  else {
                                 wp_enqueue_script('jquery-ui-datepicker');
                         }
@@ -850,6 +852,39 @@ EOD;
                 }
                 return $timestamp;
         }
+        
+        
+        
+ function admin_print_js() {
+    global $post, $wp_locale;
+ 
+    //add the jQuery UI elements shipped with WP
+    wp_enqueue_script( 'jquery' );
+    wp_enqueue_script( 'jquery-ui-datepicker' );
+
+    //localize our js
+    $aryArgs = array(
+        'closeText'         => __( 'Done', UNIQUE_TEXT_DOMAIN ),
+        'currentText'       => __( 'Today', UNIQUE_TEXT_DOMAIN ),
+        'monthNames'        => strip_array_indices( $wp_locale->month ),
+        'monthNamesShort'   => strip_array_indices( $wp_locale->month_abbrev ),
+        'monthStatus'       => __( 'Show a different month', UNIQUE_TEXT_DOMAIN ),
+        'dayNames'          => strip_array_indices( $wp_locale->weekday ),
+        'dayNamesShort'     => strip_array_indices( $wp_locale->weekday_abbrev ),
+        'dayNamesMin'       => strip_array_indices( $wp_locale->weekday_initial ),
+        // set the date format to match the WP general date settings
+        'dateFormat'        => date_format_php_to_js( $this->wp_date_format ),
+        // get the start of week from WP general setting
+        'firstDay'          => get_option( 'start_of_week' ),
+        // is Right to left language? default is false
+        'isRTL'             => $wp_locale->is_rtl,
+    );
+ 
+    // Pass the array to the enqueued JS
+    wp_localize_script( 'myplugin-admin', 'objectL10n', $aryArgs );
+}        
+        
+        
         /**
          * SoftsdevDDDateTime Class
          */
